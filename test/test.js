@@ -1,0 +1,57 @@
+const assert = require('assert');
+const Web3 = require('web3');
+const moment = require('moment');
+const ethDater = require('../src/ethereum-block-by-date');
+const infura = require('../config').infura;
+
+const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/' + infura));
+const dater = new ethDater(web3);
+
+describe('Block By Date Tests', function() {
+    this.timeout(0);
+
+    it('Should get right block for a given string', async function() {
+        let block = await dater.getDate('2016-07-20T13:20:40Z');
+        assert.equal(block.block, 1920000);
+    });
+
+    it('Should get right block for Date object', async function() {
+        let block = await dater.getDate(new Date('2016-07-20T13:20:40Z'));
+        assert.equal(block.block, 1920000);
+    });
+
+    it('Should get right block for Moment object', async function() {
+        let block = await dater.getDate(moment(new Date('2016-07-20T13:20:40Z')).utc());
+        assert.equal(block.block, 1920000);
+    });
+
+    it('Should get previous block for a given string', async function() {
+        let block = await dater.getDate('2016-07-20T13:20:40Z', false);
+        assert.equal(block.block, 1919999);
+    });
+
+    it('Should get first blocks of the years', async function() {
+        let blocks = await dater.getEvery('years', '2017-01-01T00:00:00Z', '2019-01-01T00:00:00Z');
+        let numbers = blocks.map(block => block.block);
+        let expected = [2912407, 4832686, 6988615];
+        assert.deepEqual(expected, numbers);
+    });
+
+    it('Should get last blocks of the years', async function() {
+        let blocks = await dater.getEvery('years', '2017-01-01T00:00:00Z', '2019-01-01T00:00:00Z', 1, false);
+        let numbers = blocks.map(block => block.block);
+        let expected = [2912406, 4832685, 6988614];
+        assert.deepEqual(expected, numbers);
+    });
+
+    it('Should return 1 as block number if given time is before first block time', async function() {
+        let block = await dater.getDate(new Date('1961-04-06:07:00Z'));
+        assert.equal(block.block, 1);
+    });
+
+    it('Should return last block number if given time is in the future', async function() {
+        let last = await web3.eth.getBlockNumber();
+        let block = await dater.getDate(moment().add(100, 'years'));
+        assert.equal(block.block, last);
+    });
+});

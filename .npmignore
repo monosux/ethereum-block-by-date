@@ -1,0 +1,18 @@
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules
+
+# configs
+package-lock.json
+yarn.lock
+config.json
+yarn-error.log
+.yarnrc
+
+# project files
+src
+test
+.babelrc
+.gitignore

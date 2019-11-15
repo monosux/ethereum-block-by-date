@@ -1,0 +1,42 @@
+{
+	"name": "ethereum-block-by-date",
+	"version": "1.0.0",
+	"description": "Get Ethereum block number by a given date. Or blocks by a given period duration.",
+	"keywords": [
+		"ethereum",
+		"blockchain",
+		"web3",
+		"eth",
+		"dapp",
+		"utilties"
+	],
+	"homepage": "https://github.com/monosux/ethereum-block-by-date",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/monosux/ethereum-block-by-date.git"
+	},
+	"bugs": {
+		"url": "https://github.com/monosux/ethereum-block-by-date/issues"
+	},
+	"author": "Sergey Alexeev <alexeev.sergey.a@gmail.com>",
+	"license": "MIT",
+	"main": "./lib/ethereum-block-by-date.js",
+	"dependencies": {
+		"moment": "^2.24.0"
+	},
+	"scripts": {
+		"build": "babel src -d lib",
+		"test": "mocha"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.7.0",
+		"@babel/core": "^7.7.2",
+		"@babel/preset-env": "^7.7.1",
+		"mocha": "^6.2.2",
+		"web3": "1.2.2"
+	},
+	"browserslist": [
+		"last 2 chrome versions",
+		"maintained node versions"
+	]
+}
