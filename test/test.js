@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('chai').assert;
 const Web3 = require('web3');
 const moment = require('moment');
 const ethDater = require('../src/ethereum-block-by-date');
