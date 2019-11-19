@@ -16,3 +16,4 @@ src
 test
 .babelrc
 .gitignore
+.eslintrc.json

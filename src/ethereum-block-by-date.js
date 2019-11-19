@@ -81,4 +81,4 @@ module.exports = class {
         this.requests++;
         return this.savedBlocks[block];
     }
-}
+};
