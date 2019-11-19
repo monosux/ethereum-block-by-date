@@ -12,7 +12,7 @@ module.exports = class {
     async getBlockTime() {
         let latest = await this.getBlockWrapper('latest');
         let first = await this.getBlockWrapper(1);
-        this.blockTime = (parseInt(latest.timestamp, 10) - parseInt(first.timestamp, 10)) / parseInt(latest.number, 10);
+        this.blockTime = (parseInt(latest.timestamp, 10) - parseInt(first.timestamp, 10)) / (parseInt(latest.number, 10) - 1);
         this.firstTimestamp = moment.unix(first.timestamp);
     }
 
@@ -40,13 +40,17 @@ module.exports = class {
         return await Promise.all(dates.map((date) => this.getDate(date, after)));
     }
 
-    async findBetter(date, predictedBlock, after) {
+    async findBetter(date, predictedBlock, after, blockTime = this.blockTime) {
         if (await this.isBetterBlock(date, predictedBlock, after)) return predictedBlock.number;
         let difference = date.diff(moment.unix(predictedBlock.timestamp), 'seconds');
-        let skip = Math.ceil(difference / this.blockTime);
+        let skip = Math.ceil(difference / blockTime);
         if (skip == 0) skip = difference < 0 ? -1 : 1;
         let nextPredictedBlock = await this.getBlockWrapper(this.getNextBlock(date, predictedBlock.number, skip));
-        return this.findBetter(date, nextPredictedBlock, after);
+        blockTime = Math.abs(
+            (parseInt(predictedBlock.timestamp, 10) - parseInt(nextPredictedBlock.timestamp, 10)) /
+            (parseInt(predictedBlock.number, 10) - parseInt(nextPredictedBlock.number, 10))
+        );
+        return this.findBetter(date, nextPredictedBlock, after, blockTime);
     }
 
     async isBetterBlock(date, predictedBlock, after) {

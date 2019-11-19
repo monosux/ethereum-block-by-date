@@ -54,4 +54,22 @@ describe('Block By Date Tests', function() {
         let block = await dater.getDate(moment().add(100, 'years'));
         assert.equal(block.block, last);
     });
+
+    it('Should make less then 15 requests for 2015-09-03T08:47:03.168Z', async function() {
+        dater.requests = 0;
+        await dater.getDate('2015-09-03T08:47:03.168Z');
+        assert.isBelow(dater.requests, 15);
+    });
+
+    it('Should make less then 15 requests for 2017-09-09T16:33:13.236Z', async function() {
+        dater.requests = 0;
+        await dater.getDate('2017-09-09T16:33:13.236Z');
+        assert.isBelow(dater.requests, 15);
+    });
+
+    it('Should make less then 15 requests for 2017-09-22T13:52:59.961Z', async function() {
+        dater.requests = 0;
+        await dater.getDate('2017-09-22T13:52:59.961Z');
+        assert.isBelow(dater.requests, 15);
+    });
 });
