@@ -71,7 +71,7 @@ let blocks = await dater.getEvery('years', '2016-01-01T00:00:00Z', '2019-01-01T0
     { date: '2017-01-01T00:00:00Z', block: 2912407 },
     { date: '2018-01-01T00:00:00Z', block: 4832686 },
     { date: '2019-01-01T00:00:00Z', block: 6988615 }
-]*/
+] */
 ```
 
 Every last block of the year:
@@ -83,7 +83,7 @@ let blocks = await dater.getEvery('years', '2016-01-01T00:00:00Z', '2019-01-01T0
     { date: '2017-01-01T00:00:00Z', block: 2912406 },
     { date: '2018-01-01T00:00:00Z', block: 4832685 },
     { date: '2019-01-01T00:00:00Z', block: 6988614 }
-]*/
+] */
 ```
 
 Every first block of every 4 hours of October 10, 2019:
@@ -91,12 +91,12 @@ Every first block of every 4 hours of October 10, 2019:
 let blocks = await dater.getEvery('hours', '2019-10-10T00:00:00Z', '2019-10-11T00:00:00Z', 4);
 
 /* Returns [
-    { date: '2016-01-01T00:00:00Z', block: 8710742 },
+    { date: '2019-10-10T00:00:00Z', block: 8710742 },
     { date: '2019-10-10T04:00:00Z', block: 8711802 },
     { date: '2019-10-10T08:00:00Z', block: 8712836 },
     { date: '2019-10-10T12:00:00Z', block: 8713926 },
     { date: '2019-10-10T16:00:00Z', block: 8715001 },
     { date: '2019-10-10T20:00:00Z', block: 8716033 },
-    { date: '2019-01-01T00:00:00Z', block: 8717086 }
-]*/
+    { date: '2019-10-11T00:00:00Z', block: 8717086 }
+] */
 ```
