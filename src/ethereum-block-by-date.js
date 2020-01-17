@@ -20,7 +20,7 @@ module.exports = class {
         if (!moment.isMoment(date)) date = moment(date).utc();
         if (typeof this.firstTimestamp == 'undefined' || this.blockTime == 'undefined') await this.getBlockTime();
         if (date.isBefore(this.firstTimestamp)) return { date: date.format(), block: 1 };
-        if (date.isSameOrAfter(moment())) return { date: date.format(), block: await this.web3.eth.getBlockNumber() };
+        if (date.isSameOrAfter(moment()) || date.isSameOrAfter(this.savedBlocks.latest)) return { date: date.format(), block: await this.web3.eth.getBlockNumber() };
         this.checkedBlocks[date.unix()] = [];
         let predictedBlock = await this.getBlockWrapper(Math.ceil(date.diff(this.firstTimestamp, 'seconds') / this.blockTime));
         return {
