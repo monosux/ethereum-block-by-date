@@ -1,11 +1,10 @@
 const moment = require('moment');
 
 module.exports = class {
-    constructor(web3, save = true) {
+    constructor(web3) {
         this.web3 = web3;
         this.checkedBlocks = {};
-        this.saveBlocks = save;
-        if (save) this.savedBlocks = {};
+        this.savedBlocks = {};
         this.requests = 0;
     }
 
@@ -20,7 +19,7 @@ module.exports = class {
         if (!moment.isMoment(date)) date = moment(date).utc();
         if (typeof this.firstTimestamp == 'undefined' || this.blockTime == 'undefined') await this.getBlockTime();
         if (date.isBefore(this.firstTimestamp)) return { date: date.format(), block: 1 };
-        if (date.isSameOrAfter(moment()) || date.isSameOrAfter(this.savedBlocks.latest)) return { date: date.format(), block: await this.web3.eth.getBlockNumber() };
+        if (date.isSameOrAfter(this.savedBlocks.latest)) return { date: date.format(), block: await this.web3.eth.getBlockNumber() };
         this.checkedBlocks[date.unix()] = [];
         let predictedBlock = await this.getBlockWrapper(Math.ceil(date.diff(this.firstTimestamp, 'seconds') / this.blockTime));
         return {
@@ -75,7 +74,6 @@ module.exports = class {
     }
 
     async getBlockWrapper(block) {
-        if (!this.saveBlocks) return await this.web3.eth.getBlock(block);
         if (this.savedBlocks[block]) return this.savedBlocks[block];
         let {timestamp} = await this.web3.eth.getBlock(block);
         this.savedBlocks[block] = {
