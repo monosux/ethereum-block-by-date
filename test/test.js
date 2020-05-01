@@ -25,6 +25,11 @@ describe('Block By Date Tests', function() {
         assert.equal(block.block, 1920000);
     });
 
+    it('Should get right block for miliseconds', async function() {
+        let block = await dater.getDate(1469020840000);
+        assert.equal(block.block, 1920000);
+    });
+
     it('Should get previous block for a given string', async function() {
         let block = await dater.getDate('2016-07-20T13:20:40Z', false);
         assert.equal(block.block, 1919999);
@@ -52,6 +57,13 @@ describe('Block By Date Tests', function() {
     it('Should return last block number if given time is in the future', async function() {
         let last = await web3.eth.getBlockNumber();
         let block = await dater.getDate(moment().add(100, 'years'));
+        assert.equal(block.block, last);
+    });
+
+    it('Should return last block number if given time is bigger than last block timestamp', async function() {
+        let last = await web3.eth.getBlockNumber();
+        let {timestamp} = await web3.eth.getBlock(last);
+        let block = await dater.getDate((timestamp + 1) * 1000);
         assert.equal(block.block, last);
     });
 
