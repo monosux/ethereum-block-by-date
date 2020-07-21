@@ -1,6 +1,6 @@
 {
 	"name": "ethereum-block-by-date",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "Get Ethereum block number by a given date. Or blocks by a given period duration.",
 	"keywords": [
 		"ethereum",
@@ -22,7 +22,7 @@
 	"license": "MIT",
 	"main": "./lib/ethereum-block-by-date.js",
 	"dependencies": {
-		"moment": "^2.25.0"
+		"moment": "^2.27.0"
 	},
 	"scripts": {
 		"build": "babel src -d lib",
@@ -30,12 +30,12 @@
 		"lint": "eslint src"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.8.4",
-		"@babel/core": "^7.9.6",
-		"@babel/preset-env": "^7.9.6",
+		"@babel/cli": "^7.10.5",
+		"@babel/core": "^7.10.5",
+		"@babel/preset-env": "^7.10.4",
 		"chai": "^4.2.0",
 		"eslint": "^6.8.0",
-		"mocha": "^7.1.2",
+		"mocha": "^8.0.1",
 		"web3": "1.2.7"
 	},
 	"browserslist": [
