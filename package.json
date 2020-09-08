@@ -1,6 +1,6 @@
 {
 	"name": "ethereum-block-by-date",
-	"version": "1.2.4",
+	"version": "1.2.5",
 	"description": "Get Ethereum block number by a given date. Or blocks by a given period duration.",
 	"keywords": [
 		"ethereum",
