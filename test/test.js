@@ -84,4 +84,15 @@ describe('Block By Date Tests', function() {
         await dater.getDate('2017-09-22T13:52:59.961Z');
         assert.isBelow(dater.requests, 15);
     });
+
+    it('Should return unique blocks for hourly request', async function() {
+        let time = moment(),results = [];
+        for (let i = 0; i < 10; i++) {
+            let request = await dater.getDate(time);
+            time.subtract(1, 'hours');
+            results.push(request.block);
+        }
+        let unique = results.filter((v, i, a) => a.indexOf(v) === i);
+        assert.deepEqual(results, unique);
+    });
 });
