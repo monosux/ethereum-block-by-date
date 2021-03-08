@@ -26,7 +26,7 @@
 	},
 	"scripts": {
 		"build": "babel src -d lib",
-		"test": "mocha && npm run lint",
+		"test": "npm run build && mocha && npm run lint",
 		"lint": "eslint src"
 	},
 	"devDependencies": {
