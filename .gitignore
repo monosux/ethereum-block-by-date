@@ -6,3 +6,4 @@ lib
 config.json
 yarn-error.log
 .yarnrc
+.env

@@ -10,6 +10,7 @@ yarn.lock
 config.json
 yarn-error.log
 .yarnrc
+.env
 
 # project files
 src
