@@ -95,4 +95,21 @@ describe('Block By Date Tests', function() {
         let unique = results.filter((v, i, a) => a.indexOf(v) === i);
         assert.deepEqual(results, unique);
     });
+
+    it('Should return right timestamp for a given date', async function() {
+        let block = await dater.getDate(new Date('2016-07-20T13:20:40Z'));
+        assert.equal(block.timestamp, 1469020840);
+    });
+
+    it('Should return right timestamp if given time is before first block time', async function() {
+        let block = await dater.getDate(new Date('1961-04-06:07:00Z'));
+        assert.equal(block.timestamp, 1438269988);
+    });
+
+    it('Should return right timestamp if given time is in the future', async function() {
+        let last = await web3.eth.getBlockNumber();
+        let { timestamp } = await web3.eth.getBlock(last);
+        let block = await dater.getDate(moment().add(100, 'years'));
+        assert.equal(block.timestamp, timestamp);
+    });
 });
