@@ -85,6 +85,12 @@ describe('Block By Date Tests', function() {
         assert.isBelow(dater.requests, 15);
     });
 
+    it('Should make less then 15 requests for 2016-11-14T14:46:06.107Z', async function() {
+        dater.requests = 0;
+        await dater.getDate('2016-11-14T14:46:06.107Z');
+        assert.isBelow(dater.requests, 15);
+    });
+
     it('Should return unique blocks for hourly request', async function() {
         let time = moment(),results = [];
         for (let i = 0; i < 10; i++) {
