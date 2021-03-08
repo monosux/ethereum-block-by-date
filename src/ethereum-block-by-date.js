@@ -9,23 +9,19 @@ module.exports = class {
     }
 
     async getBlockTime() {
-        let latest = await this.getBlockWrapper('latest');
-        let first = await this.getBlockWrapper(1);
-        this.blockTime = (parseInt(latest.timestamp, 10) - parseInt(first.timestamp, 10)) / (parseInt(latest.number, 10) - 1);
-        this.firstTimestamp = moment.unix(first.timestamp);
+        this.latestBlock = await this.getBlockWrapper('latest');
+        this.firstBlock = await this.getBlockWrapper(1);
+        this.blockTime = (parseInt(this.latestBlock.timestamp, 10) - parseInt(this.firstBlock.timestamp, 10)) / (parseInt(this.latestBlock.number, 10) - 1);
     }
 
     async getDate(date, after = true) {
         if (!moment.isMoment(date)) date = moment(date).utc();
-        if (typeof this.firstTimestamp == 'undefined' || this.blockTime == 'undefined') await this.getBlockTime();
-        if (date.isBefore(this.firstTimestamp)) return { date: date.format(), block: 1 };
-        if (date.isSameOrAfter(moment.unix(this.savedBlocks.latest.timestamp))) return { date: date.format(), block: await this.web3.eth.getBlockNumber() };
+        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined') await this.getBlockTime();
+        if (date.isBefore(moment.unix(this.firstBlock.timestamp))) return this.returnWrapper(date.format(), 1);
+        if (date.isSameOrAfter(moment.unix(this.latestBlock.timestamp))) return this.returnWrapper(date.format(), this.latestBlock.number);
         this.checkedBlocks[date.unix()] = [];
-        let predictedBlock = await this.getBlockWrapper(Math.ceil(date.diff(this.firstTimestamp, 'seconds') / this.blockTime));
-        return {
-            date: date.format(),
-            block: await this.findBetter(date, predictedBlock, after)
-        };
+        let predictedBlock = await this.getBlockWrapper(Math.ceil(date.diff(moment.unix(this.firstBlock.timestamp), 'seconds') / this.blockTime));
+        return this.returnWrapper(date.format(), await this.findBetter(date, predictedBlock, after));
     }
 
     async getEvery(duration, start, end, every = 1, after = true) {
@@ -35,7 +31,7 @@ module.exports = class {
             dates.push(current.format());
             current.add(every, duration);
         }
-        if (typeof this.firstTimestamp == 'undefined' || this.blockTime == 'undefined') await this.getBlockTime();
+        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined') await this.getBlockTime();
         return await Promise.all(dates.map((date) => this.getDate(date, after)));
     }
 
@@ -73,12 +69,17 @@ module.exports = class {
         return nextBlock;
     }
 
+    returnWrapper(date, block) {
+        return { date: date, block: block, timestamp: this.savedBlocks[block].timestamp };
+    }
+
     async getBlockWrapper(block) {
+        block = block == 'latest' ? await this.web3.eth.getBlockNumber() : block;
         if (this.savedBlocks[block]) return this.savedBlocks[block];
-        let {timestamp} = await this.web3.eth.getBlock(block);
+        let { timestamp } = await this.web3.eth.getBlock(block);
         this.savedBlocks[block] = {
             timestamp: timestamp,
-            number: block == 'latest' ? await this.web3.eth.getBlockNumber() : block
+            number: block
         };
         this.requests++;
         return this.savedBlocks[block];
