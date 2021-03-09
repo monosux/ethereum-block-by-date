@@ -4,7 +4,7 @@ const moment = require('moment');
 const ethDater = require('../lib/ethereum-block-by-date');
 require('dotenv').config();
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/' + process.env.INFURA));
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.PROVIDER));
 const dater = new ethDater(web3);
 
 describe('Block By Date Tests', function() {
