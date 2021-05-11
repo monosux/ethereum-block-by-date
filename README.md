@@ -1,29 +1,54 @@
 # Ethereum Block By Date
 
 Get Ethereum block number by a given date. Or blocks by a given period duration.
+
 Works with any Ethereum based mainnet or testnet networks.
+
+Works with [web3.js](https://web3js.readthedocs.io/) and [ethers.js](https://docs.ethers.io/)
 
 ## Installation
 
 Use npm:
+
 ```
 npm i ethereum-block-by-date
 ```
 
 Or yarn:
+
 ```
 yarn add ethereum-block-by-date
 ```
 
 ## Usage
 
+### Using with Web3.js
+
 ```javascript
 const EthDater = require('ethereum-block-by-date');
+const Web3 = require('web3');
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.PROVIDER));
 
 const dater = new EthDater(
     web3 // Web3 object, required.
 );
+```
 
+### Using with Ethers.js
+
+```javascript
+const EthDater = require('ethereum-block-by-date');
+const { ethers } = require('ethers');
+const provider = new ethers.providers.CloudflareProvider();
+
+const dater = new EthDater(
+    provider // Ethers provider, required.
+);
+```
+
+### Requests
+
+```javascript
 // Getting block by date:
 let block = await dater.getDate(
     '2016-07-20T13:20:40Z', // Date, required. Any valid moment.js value: string, milliseconds, Date() object, moment() object.

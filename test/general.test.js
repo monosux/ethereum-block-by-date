@@ -4,10 +4,10 @@ const moment = require('moment');
 const ethDater = require('../lib/ethereum-block-by-date');
 require('dotenv').config();
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/' + process.env.INFURA));
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.PROVIDER));
 const dater = new ethDater(web3);
 
-describe('Block By Date Tests', function() {
+describe('Block By Date General Tests', function() {
     this.timeout(0);
 
     it('Should get right block for a given string', async function() {
@@ -65,36 +65,6 @@ describe('Block By Date Tests', function() {
         let {timestamp} = await web3.eth.getBlock(last);
         let block = await dater.getDate((timestamp + 1) * 1000);
         assert.equal(block.block, last);
-    });
-
-    it('Should make less then 15 requests for 2015-09-03T08:47:03.168Z', async function() {
-        dater.requests = 0;
-        await dater.getDate('2015-09-03T08:47:03.168Z');
-        assert.isBelow(dater.requests, 15);
-    });
-
-    it('Should make less then 15 requests for 2017-09-09T16:33:13.236Z', async function() {
-        dater.requests = 0;
-        await dater.getDate('2017-09-09T16:33:13.236Z');
-        assert.isBelow(dater.requests, 15);
-    });
-
-    it('Should make less then 15 requests for 2017-09-22T13:52:59.961Z', async function() {
-        dater.requests = 0;
-        await dater.getDate('2017-09-22T13:52:59.961Z');
-        assert.isBelow(dater.requests, 15);
-    });
-
-    it('Should make less then 16 requests for 2016-11-14T14:46:06.107Z', async function() {
-        dater.requests = 0;
-        await dater.getDate('2016-11-14T14:46:06.107Z');
-        assert.isBelow(dater.requests, 16);
-    });
-
-    it('Should make less then 15 requests for 2017-04-20T07:54:29.965Z', async function() {
-        dater.requests = 0;
-        await dater.getDate('2017-04-20T07:54:29.965Z');
-        assert.isBelow(dater.requests, 15);
     });
 
     it('Should return unique blocks for hourly request', async function() {
