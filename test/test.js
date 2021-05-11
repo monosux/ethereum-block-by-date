@@ -124,4 +124,19 @@ describe('Block By Date Tests', function() {
         let block = await dater.getDate(moment().add(100, 'years'));
         assert.equal(block.timestamp, timestamp);
     });
+
+    it('Should return right timestamp for a given date', async function() {
+        let block = await dater.getDate(moment('2015-07-30T11:28:01-04:00'));
+        assert.equal(block.block, 5);
+    });
+
+    it('Should return right timestamp for a given date', async function() {
+        let block = await dater.getDate(moment('2015-07-30T11:28:02-04:00'));
+        assert.equal(block.block, 5);
+    });
+
+    it('Should return right timestamp for a given date', async function() {
+        let block = await dater.getDate(moment('2015-07-30T11:28:03-04:00'));
+        assert.equal(block.block, 5);
+    });
 });
