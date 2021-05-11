@@ -66,7 +66,7 @@ module.exports = class {
         let nextBlock = currentBlock + skip;
         if (this.checkedBlocks[date.unix()].includes(nextBlock)) return this.getNextBlock(date, currentBlock, (skip < 0 ? --skip : ++skip));
         this.checkedBlocks[date.unix()].push(nextBlock);
-        return nextBlock;
+        return nextBlock < 1 ? 1 : nextBlock;
     }
 
     returnWrapper(date, block) {
