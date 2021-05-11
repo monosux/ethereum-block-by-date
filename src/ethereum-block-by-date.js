@@ -2,7 +2,7 @@ const moment = require('moment');
 
 module.exports = class {
     constructor(web3) {
-        this.web3 = web3;
+        this.web3 = web3.constructor.name === 'Web3' ? web3 : { eth: web3 };
         this.checkedBlocks = {};
         this.savedBlocks = {};
         this.requests = 0;
