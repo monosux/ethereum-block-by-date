@@ -38,7 +38,7 @@ module.exports = class {
     async findBetter(date, predictedBlock, after, blockTime = this.blockTime) {
         if (await this.isBetterBlock(date, predictedBlock, after)) return predictedBlock.number;
         let difference = date.diff(moment.unix(predictedBlock.timestamp), 'seconds');
-        let skip = blockTime > 0 ? Math.ceil(difference / blockTime) : difference < 0 ? -1 : 1;
+        let skip = Math.ceil(difference / (blockTime == 0 ? 1 : blockTime));
         if (skip == 0) skip = difference < 0 ? -1 : 1;
         let nextPredictedBlock = await this.getBlockWrapper(this.getNextBlock(date, predictedBlock.number, skip));
         blockTime = Math.abs(
