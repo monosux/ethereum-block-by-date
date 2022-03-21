@@ -10,7 +10,7 @@ module.exports = class {
 
     async getBoundaries() {
         this.latestBlock = await this.getBlockWrapper('latest');
-        if (typeof this.firstBlock == 'undefined') this.firstBlock = await this.getBlockWrapper(1);
+        this.firstBlock = await this.getBlockWrapper(1);
         this.blockTime = (parseInt(this.latestBlock.timestamp, 10) - parseInt(this.firstBlock.timestamp, 10)) / (parseInt(this.latestBlock.number, 10) - 1);
     }
 
