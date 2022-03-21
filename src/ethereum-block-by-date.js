@@ -74,14 +74,13 @@ module.exports = class {
     }
 
     async getBlockWrapper(block) {
-        block = block == 'latest' ? await this.web3.eth.getBlockNumber() : block;
         if (this.savedBlocks[block]) return this.savedBlocks[block];
-        let { timestamp } = await this.web3.eth.getBlock(block);
-        this.savedBlocks[block] = {
-            timestamp: timestamp,
-            number: block
+        const { number, timestamp } = await this.web3.eth.getBlock(block);
+        this.savedBlocks[number] = {
+            timestamp,
+            number
         };
         this.requests++;
-        return this.savedBlocks[block];
+        return this.savedBlocks[number];
     }
 };
