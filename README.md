@@ -52,7 +52,8 @@ const dater = new EthDater(
 // Getting block by date:
 let block = await dater.getDate(
     '2016-07-20T13:20:40Z', // Date, required. Any valid moment.js value: string, milliseconds, Date() object, moment() object.
-    true // Block after, optional. Search for the nearest block before or after the given date. By default true.
+    true, // Block after, optional. Search for the nearest block before or after the given date. By default true.
+    false // Refresh boundaries, optional. Recheck the latest block before request. By default false.
 );
 
 /* Returns an object: {
@@ -67,7 +68,8 @@ let blocks = await dater.getEvery(
     '2019-09-02T12:00:00Z', // Start date, required. Any valid moment.js value: string, milliseconds, Date() object, moment() object.
     '2019-09-30T12:00:00Z', // End date, required. Any valid moment.js value: string, milliseconds, Date() object, moment() object.
     1, // Duration, optional, integer. By default 1.
-    true // Block after, optional. Search for the nearest block before or after the given date. By default true.
+    true, // Block after, optional. Search for the nearest block before or after the given date. By default true.
+    false // Refresh boundaries, optional. Recheck the latest block before request. By default false.
 );
 
 /* Returns an array of objects: [
