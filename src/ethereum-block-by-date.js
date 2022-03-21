@@ -24,14 +24,14 @@ module.exports = class {
         return this.returnWrapper(date.format(), await this.findBetter(date, predictedBlock, after));
     }
 
-    async getEvery(duration, start, end, every = 1, after = true) {
+    async getEvery(duration, start, end, every = 1, after = true, refresh = false) {
         start = moment(start), end = moment(end);
         let current = start, dates = [];
         while (current.isSameOrBefore(end)) {
             dates.push(current.format());
             current.add(every, duration);
         }
-        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined') await this.getBoundaries();
+        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined' || refresh) await this.getBoundaries();
         return await Promise.all(dates.map((date) => this.getDate(date, after)));
     }
 
