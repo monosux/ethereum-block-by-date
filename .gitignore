@@ -7,3 +7,4 @@ config.json
 yarn-error.log
 .yarnrc
 .env
+tmp.js

@@ -18,3 +18,4 @@ test
 .babelrc
 .gitignore
 .eslintrc.json
+tmp.js
