@@ -10,13 +10,13 @@ module.exports = class {
 
     async getBoundaries() {
         this.latestBlock = await this.getBlockWrapper('latest');
-        this.firstBlock = await this.getBlockWrapper(1);
+        if (typeof this.firstBlock == 'undefined') this.firstBlock = await this.getBlockWrapper(1);
         this.blockTime = (parseInt(this.latestBlock.timestamp, 10) - parseInt(this.firstBlock.timestamp, 10)) / (parseInt(this.latestBlock.number, 10) - 1);
     }
 
-    async getDate(date, after = true) {
+    async getDate(date, after = true, refresh = false) {
         if (!moment.isMoment(date)) date = moment(date).utc();
-        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined') await this.getBoundaries();
+        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined' || refresh) await this.getBoundaries();
         if (date.isBefore(moment.unix(this.firstBlock.timestamp))) return this.returnWrapper(date.format(), 1);
         if (date.isSameOrAfter(moment.unix(this.latestBlock.timestamp))) return this.returnWrapper(date.format(), this.latestBlock.number);
         this.checkedBlocks[date.unix()] = [];
