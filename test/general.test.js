@@ -56,14 +56,14 @@ describe('Block By Date General Tests', function() {
 
     it('Should return last block number if given time is in the future', async function() {
         let last = await web3.eth.getBlockNumber();
-        let block = await dater.getDate(moment().add(100, 'years'));
+        let block = await dater.getDate(moment().add(100, 'years'), false, true);
         assert.equal(block.block, last);
     });
 
     it('Should return last block number if given time is bigger than last block timestamp', async function() {
         let last = await web3.eth.getBlockNumber();
         let {timestamp} = await web3.eth.getBlock(last);
-        let block = await dater.getDate((timestamp + 1) * 1000);
+        let block = await dater.getDate((timestamp + 1) * 1000, false, true);
         assert.equal(block.block, last);
     });
 
@@ -89,9 +89,8 @@ describe('Block By Date General Tests', function() {
     });
 
     it('Should return right timestamp if given time is in the future', async function() {
-        let last = await web3.eth.getBlockNumber();
-        let { timestamp } = await web3.eth.getBlock(last);
-        let block = await dater.getDate(moment().add(100, 'years'));
+        let { timestamp } = await web3.eth.getBlock('latest');
+        let block = await dater.getDate(moment().add(100, 'years'), false, true);
         assert.equal(block.timestamp, timestamp);
     });
 });

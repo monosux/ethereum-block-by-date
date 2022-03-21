@@ -21,7 +21,7 @@ describe('Block By Date Ethers Tests', function() {
 
     it('Should return last block number if given time is in the future', async function() {
         let last = await provider.getBlockNumber();
-        let block = await dater.getDate(moment().add(100, 'years'));
+        let block = await dater.getDate(moment().add(100, 'years'), false, true);
         assert.equal(block.block, last);
     });
 });
