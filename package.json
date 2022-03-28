@@ -29,7 +29,7 @@
 		"test": "npm run build && mocha && npm run lint",
 		"lint": "eslint src",
 		"prettier": "prettier src --write",
-        "style": "yarn lint && yarn prettier"
+		"style": "yarn lint && yarn prettier"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.17.6",
@@ -37,10 +37,10 @@
 		"@babel/preset-env": "^7.16.11",
 		"chai": "^4.3.6",
 		"dotenv": "^16.0.0",
-		"eslint": "^8.11.0",
-		"ethers": "^5.4.5",
+		"eslint": "^8.12.0",
+		"ethers": "^5.6.2",
 		"mocha": "^9.2.2",
-		"prettier": "^2.6.0",
+		"prettier": "^2.6.1",
 		"rimraf": "^3.0.2",
 		"web3": "^1.7.1"
 	},
