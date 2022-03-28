@@ -40,7 +40,7 @@ module.exports = class {
         let difference = date.diff(moment.unix(predictedBlock.timestamp), 'seconds');
         let skip = Math.ceil(difference / (blockTime == 0 ? 1 : blockTime));
         if (skip == 0) skip = difference < 0 ? -1 : 1;
-        let nextPredictedBlock = await this.getBlockWrapper(this.getNextBlock(date, predictedBlock.number, skip));
+        let nextPredictedBlock = await this.getBlockWrapper(await this.getNextBlock(date, predictedBlock.number, skip));
         blockTime = Math.abs(
             (parseInt(predictedBlock.timestamp, 10) - parseInt(nextPredictedBlock.timestamp, 10)) /
             (parseInt(predictedBlock.number, 10) - parseInt(nextPredictedBlock.number, 10))
@@ -62,8 +62,9 @@ module.exports = class {
         return false;
     }
 
-    getNextBlock(date, currentBlock, skip) {
+    async getNextBlock(date, currentBlock, skip) {
         let nextBlock = currentBlock + skip;
+        if (nextBlock > this.latestBlock.number) nextBlock = this.latestBlock.number;
         if (this.checkedBlocks[date.unix()].includes(nextBlock)) return this.getNextBlock(date, currentBlock, (skip < 0 ? --skip : ++skip));
         this.checkedBlocks[date.unix()].push(nextBlock);
         return nextBlock < 1 ? 1 : nextBlock;
