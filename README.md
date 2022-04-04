@@ -135,3 +135,9 @@ let blocks = await dater.getEvery('hours', '2019-10-10T00:00:00Z', '2019-10-11T0
 ## Need Help
 
 If you need any help, please contact me via GitHub issues page: [GitHub](https://github.com/monosux/ethereum-block-by-date/issues)
+
+## Donations
+
+If you like my package and you want to support the development or buy me a cup of coffee, you could donate to me via Ethereum: 0x18F54b91f7e19c51fA701E7ed5628fA45441d872
+
+Thanks ❤️
