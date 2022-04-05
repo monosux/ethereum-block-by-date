@@ -3,7 +3,7 @@ const { ethers } = require('ethers');
 const moment = require('moment');
 const ethDater = require('../lib/ethereum-block-by-date');
 
-const provider = new ethers.providers.CloudflareProvider();
+const provider = new ethers.providers.InfuraProvider();
 const dater = new ethDater(provider);
 
 describe('Block By Date Ethers Tests', function() {
