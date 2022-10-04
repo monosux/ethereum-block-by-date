@@ -1,6 +1,6 @@
 {
 	"name": "ethereum-block-by-date",
-	"version": "1.4.5",
+	"version": "1.4.6",
 	"description": "Get Ethereum block number by a given date. Or blocks by a given period duration.",
 	"keywords": [
 		"ethereum",
@@ -22,7 +22,7 @@
 	"license": "MIT",
 	"main": "./lib/ethereum-block-by-date.js",
 	"dependencies": {
-		"moment": "^2.29.2"
+		"moment": "^2.29.4"
 	},
 	"scripts": {
 		"build": "rimraf lib && babel src -d lib",
@@ -32,17 +32,17 @@
 		"style": "yarn lint && yarn prettier"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.17.6",
-		"@babel/core": "^7.17.8",
-		"@babel/preset-env": "^7.16.11",
+		"@babel/cli": "^7.19.3",
+		"@babel/core": "^7.19.3",
+		"@babel/preset-env": "^7.19.3",
 		"chai": "^4.3.6",
-		"dotenv": "^16.0.0",
-		"eslint": "^8.12.0",
-		"ethers": "^5.6.2",
-		"mocha": "^9.2.2",
-		"prettier": "^2.6.2",
+		"dotenv": "^16.0.3",
+		"eslint": "^8.24.0",
+		"ethers": "^5.7.1",
+		"mocha": "^10.0.0",
+		"prettier": "^2.7.1",
 		"rimraf": "^3.0.2",
-		"web3": "^1.7.1"
+		"web3": "^1.8.0"
 	},
 	"browserslist": [
 		"last 2 chrome versions",
