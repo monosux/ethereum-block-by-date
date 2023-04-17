@@ -16,7 +16,8 @@ module.exports = class {
 
     async getDate(date, after = true, refresh = false) {
         if (!moment.isMoment(date)) date = moment(date).utc();
-        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined' || refresh) await this.getBoundaries();
+        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined' || refresh)
+            await this.getBoundaries();
         if (date.isBefore(moment.unix(this.firstBlock.timestamp))) return this.returnWrapper(date.format(), 1);
         if (date.isSameOrAfter(moment.unix(this.latestBlock.timestamp))) return this.returnWrapper(date.format(), this.latestBlock.number);
         this.checkedBlocks[date.unix()] = [];
@@ -25,14 +26,16 @@ module.exports = class {
     }
 
     async getEvery(duration, start, end, every = 1, after = true, refresh = false) {
-        start = moment(start), end = moment(end);
-        let current = start, dates = [];
+        (start = moment(start)), (end = moment(end));
+        let current = start,
+            dates = [];
         while (current.isSameOrBefore(end)) {
             dates.push(current.format());
             current.add(every, duration);
         }
-        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined' || refresh) await this.getBoundaries();
-        return await Promise.all(dates.map((date) => this.getDate(date, after)));
+        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined' || refresh)
+            await this.getBoundaries();
+        return await Promise.all(dates.map(date => this.getDate(date, after)));
     }
 
     async findBetter(date, predictedBlock, after, blockTime = this.blockTime) {
@@ -43,7 +46,7 @@ module.exports = class {
         let nextPredictedBlock = await this.getBlockWrapper(this.getNextBlock(date, predictedBlock.number, skip));
         blockTime = Math.abs(
             (parseInt(predictedBlock.timestamp, 10) - parseInt(nextPredictedBlock.timestamp, 10)) /
-            (parseInt(predictedBlock.number, 10) - parseInt(nextPredictedBlock.number, 10))
+                (parseInt(predictedBlock.number, 10) - parseInt(nextPredictedBlock.number, 10))
         );
         return this.findBetter(date, nextPredictedBlock, after, blockTime);
     }
@@ -65,7 +68,7 @@ module.exports = class {
     getNextBlock(date, currentBlock, skip) {
         let nextBlock = currentBlock + skip;
         if (nextBlock > this.latestBlock.number) nextBlock = this.latestBlock.number;
-        if (this.checkedBlocks[date.unix()].includes(nextBlock)) return this.getNextBlock(date, currentBlock, (skip < 0 ? --skip : ++skip));
+        if (this.checkedBlocks[date.unix()].includes(nextBlock)) return this.getNextBlock(date, currentBlock, skip < 0 ? --skip : ++skip);
         this.checkedBlocks[date.unix()].push(nextBlock);
         return nextBlock < 1 ? 1 : nextBlock;
     }
