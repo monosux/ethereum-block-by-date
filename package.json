@@ -32,15 +32,15 @@
 		"style": "yarn lint && yarn prettier"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.19.3",
-		"@babel/core": "^7.19.3",
-		"@babel/preset-env": "^7.19.3",
-		"chai": "^4.3.6",
+		"@babel/cli": "^7.21.0",
+		"@babel/core": "^7.21.4",
+		"@babel/preset-env": "^7.21.4",
+		"chai": "^4.3.7",
 		"dotenv": "^16.0.3",
-		"eslint": "^8.24.0",
+		"eslint": "^8.38.0",
 		"ethers": "^5.7.1",
-		"mocha": "^10.0.0",
-		"prettier": "^2.7.1",
+		"mocha": "^10.2.0",
+		"prettier": "^2.8.7",
 		"rimraf": "^3.0.2",
 		"web3": "^1.8.0"
 	},
