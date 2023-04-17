@@ -1,12 +1,12 @@
 const assert = require('chai').assert;
-const { ethers } = require('ethers');
+const { ethers } = require('ethers-v5');
 const moment = require('moment');
 const ethDater = require('../lib/ethereum-block-by-date');
 
-const provider = new ethers.InfuraProvider();
+const provider = new ethers.providers.InfuraProvider();
 const dater = new ethDater(provider);
 
-describe('Block By Date Ethers Tests', function() {
+describe('Block By Date Ethers@5 Tests', function() {
     this.timeout(0);
 
     it('Should get right block for a given string', async function() {
