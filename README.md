@@ -39,6 +39,11 @@ const dater = new EthDater(
 ```javascript
 const EthDater = require('ethereum-block-by-date');
 const { ethers } = require('ethers');
+
+// For Ethers.js v6 use:
+const provider = new ethers.CloudflareProvider();
+
+// For Ethers.js v5 use:
 const provider = new ethers.providers.CloudflareProvider();
 
 const dater = new EthDater(
