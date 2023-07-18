@@ -96,6 +96,10 @@ Note: if the given date is before the first block date in the blockchain, the sc
 
 The package uses moment.js plugin to parse dates. Read more about valid dates and time zones in the plugin's documentation: [Moment.js](https://momentjs.com/docs/)
 
+## Demo
+
+Explore the online demo of this package at [blockanddate.com](https://www.blockanddate.com/), crafted by [0xAskar](https://github.com/0xAskar).
+
 ## Examples
 
 Every first block of the year:
