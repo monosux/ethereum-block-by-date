@@ -81,8 +81,8 @@ module.exports = class {
         if (this.savedBlocks[block]) return this.savedBlocks[block];
         const { number, timestamp } = await this.web3.eth.getBlock(block);
         this.savedBlocks[number] = {
-            timestamp,
-            number
+            timestamp: Number(timestamp),
+            number: Number(number)
         };
         this.requests++;
         return this.savedBlocks[number];
