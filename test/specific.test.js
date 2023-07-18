@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const Web3 = require('web3');
+const { Web3 } = require('web3');
 const moment = require('moment');
 const ethDater = require('../lib/ethereum-block-by-date');
 require('dotenv').config();

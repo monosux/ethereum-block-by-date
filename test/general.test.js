@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const Web3 = require('web3');
+const { Web3 } = require('web3');
 const moment = require('moment');
 const ethDater = require('../lib/ethereum-block-by-date');
 require('dotenv').config();
@@ -62,8 +62,8 @@ describe('Block By Date General Tests', function() {
 
     it('Should return last block number if given time is bigger than last block timestamp', async function() {
         let last = await web3.eth.getBlockNumber();
-        let {timestamp} = await web3.eth.getBlock(last);
-        let block = await dater.getDate((timestamp + 1) * 1000, true, true);
+        let { timestamp } = await web3.eth.getBlock(last);
+        let block = await dater.getDate((Number(timestamp) + 1) * 1000, true, true);
         assert.equal(block.block, last);
     });
 
