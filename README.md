@@ -26,7 +26,13 @@ yarn add ethereum-block-by-date
 
 ```javascript
 const EthDater = require('ethereum-block-by-date');
+
+// For Web3.js v4 use:
+const { Web3 } = require('web3');
+
+// For Web3.js v1 use:
 const Web3 = require('web3');
+
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.PROVIDER));
 
 const dater = new EthDater(
