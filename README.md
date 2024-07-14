@@ -4,7 +4,7 @@ Get Ethereum block number by a given date. Or blocks by a given period duration.
 
 Works with any Ethereum based mainnet or testnet networks.
 
-Works with [web3.js](https://web3js.readthedocs.io/) and [ethers.js](https://docs.ethers.io/)
+Works with [web3.js](https://web3js.readthedocs.io/), [ethers.js](https://docs.ethers.io/) or [viem](https://viem.sh/).
 
 ## Installation
 
@@ -54,6 +54,19 @@ const provider = new ethers.providers.CloudflareProvider();
 
 const dater = new EthDater(
     provider // Ethers provider, required.
+);
+```
+
+### Using with Viem
+
+```javascript
+const { createPublicClient, http } = require('viem');
+const { mainnet } = require('viem/chains');
+
+const client = createPublicClient({ chain: mainnet, transport: http() });
+
+const dater = new EthDater(
+    client // Viem client, required.
 );
 ```
 
