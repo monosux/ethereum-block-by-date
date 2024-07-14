@@ -103,14 +103,14 @@ module.exports = class {
         this.requests++;
         return this.savedBlocks[number];
     }
-    
+
     async getBlock(block) {
         if (typeof block == 'string' && block === 'latest') {
             block = this.isViem ? { blockTag: block } : block;
             const { number, timestamp } = await this.web3.getBlock(block);
             return { number, timestamp };
-        } 
-    
+        }
+
         block = this.isViem ? { blockNumber: block } : block;
         const { number, timestamp } = await this.web3.getBlock(block);
         return { number, timestamp };
