@@ -2,10 +2,26 @@ const moment = require('moment');
 
 module.exports = class {
     constructor(web3) {
-        this.web3 = typeof web3.eth != 'undefined' ? web3 : { eth: web3 };
+        this.web3 = this.isWeb3Provider(web3) ? web3.eth : web3;
+        this.isViem = !this.isWeb3Provider(web3) && !this.isEthersProvider(web3);
         this.checkedBlocks = {};
         this.savedBlocks = {};
         this.requests = 0;
+    }
+
+    isEthersProvider(provider) {
+        try {
+            // Attempt to call a method unique to ethers.js providers
+            provider.resolveName('vitalik.eth');
+            return true;
+        } catch (error) {
+            // If the method call fails, it's not an ethers.js provider
+            return false;
+        }
+    }
+
+    isWeb3Provider(provider) {
+        return typeof provider.eth != 'undefined';
     }
 
     async getBoundaries() {
@@ -79,12 +95,24 @@ module.exports = class {
 
     async getBlockWrapper(block) {
         if (this.savedBlocks[block]) return this.savedBlocks[block];
-        const { number, timestamp } = await this.web3.eth.getBlock(block);
+        const { number, timestamp } = await this.getBlock(block);
         this.savedBlocks[number] = {
             timestamp: Number(timestamp),
             number: Number(number)
         };
         this.requests++;
         return this.savedBlocks[number];
+    }
+    
+    async getBlock(block) {
+        if (typeof block == 'string' && block === 'latest') {
+            block = this.isViem ? { blockTag: block } : block;
+            const { number, timestamp } = await this.web3.getBlock(block);
+            return { number, timestamp };
+        } 
+    
+        block = this.isViem ? { blockNumber: block } : block;
+        const { number, timestamp } = await this.web3.getBlock(block);
+        return { number, timestamp };
     }
 };
