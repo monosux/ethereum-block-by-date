@@ -1,6 +1,6 @@
 {
 	"name": "ethereum-block-by-date",
-	"version": "1.4.9",
+	"version": "1.5.0",
 	"description": "Get Ethereum block number by a given date. Or blocks by a given period duration.",
 	"keywords": [
 		"ethereum",
@@ -43,6 +43,7 @@
 		"mocha": "^10.7.0",
 		"prettier": "^3.3.3",
 		"rimraf": "^6.0.1",
+		"viem": "^2.18.7",
 		"web3": "^4.11.1",
 		"web3-v1": "npm:web3@1.10.0"
 	},
