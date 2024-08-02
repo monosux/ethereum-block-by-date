@@ -1,12 +1,16 @@
 const assert = require('chai').assert;
-const { ethers } = require('ethers-v5');
+const { createPublicClient, http } = require('viem');
+const { mainnet } = require('viem/chains');
 const moment = require('moment');
 const ethDater = require('../lib/ethereum-block-by-date');
 
-const provider = new ethers.providers.InfuraProvider();
-const dater = new ethDater(provider);
+const client = createPublicClient({
+    chain: mainnet,
+    transport: http()
+});
+const dater = new ethDater(client);
 
-describe('Block By Date Ethers@5 Tests', function() {
+describe('Block By Date Viem Tests', function() {
     this.timeout(0);
 
     it('Should get right block for a given string', async function() {
@@ -20,7 +24,7 @@ describe('Block By Date Ethers@5 Tests', function() {
     });
 
     it('Should return last block number if given time is in the future', async function() {
-        let last = await provider.getBlockNumber();
+        let last = await client.getBlockNumber();
         let block = await dater.getDate(moment().add(100, 'years'), true, true);
         assert.equal(block.block, last);
     });

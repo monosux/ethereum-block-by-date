@@ -50,7 +50,7 @@ describe('Block By Date General Tests', function() {
     });
 
     it('Should return 1 as block number if given time is before first block time', async function() {
-        let block = await dater.getDate(new Date('1961-04-06:07:00Z'));
+        let block = await dater.getDate(new Date('1961-04-12:06:07Z'));
         assert.equal(block.block, 1);
     });
 
@@ -84,7 +84,7 @@ describe('Block By Date General Tests', function() {
     });
 
     it('Should return right timestamp if given time is before first block time', async function() {
-        let block = await dater.getDate(new Date('1961-04-06:07:00Z'));
+        let block = await dater.getDate(new Date('1961-04-12:06:07Z'));
         assert.equal(block.timestamp, 1438269988);
     });
 

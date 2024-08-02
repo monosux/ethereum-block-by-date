@@ -3,6 +3,7 @@ const moment = require('moment');
 module.exports = class {
     constructor(web3) {
         this.web3 = typeof web3.eth != 'undefined' ? web3 : { eth: web3 };
+        this.isViem = web3 && 'request' in web3 && 'chain' in web3 && 'transport' in web3;
         this.checkedBlocks = {};
         this.savedBlocks = {};
         this.requests = 0;
@@ -79,7 +80,7 @@ module.exports = class {
 
     async getBlockWrapper(block) {
         if (this.savedBlocks[block]) return this.savedBlocks[block];
-        const { number, timestamp } = await this.web3.eth.getBlock(block);
+        const { number, timestamp } = await this.web3.eth.getBlock(this.isViem ? (block == 'latest' ? { blockTag: 'latest' } : { blockNumber: block }) : block);
         this.savedBlocks[number] = {
             timestamp: Number(timestamp),
             number: Number(number)
