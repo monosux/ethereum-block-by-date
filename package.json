@@ -22,7 +22,7 @@
 	"license": "MIT",
 	"main": "./lib/ethereum-block-by-date.js",
 	"dependencies": {
-		"moment": "^2.29.4"
+		"moment": "^2.30.1"
 	},
 	"scripts": {
 		"build": "rimraf lib && babel src -d lib",
