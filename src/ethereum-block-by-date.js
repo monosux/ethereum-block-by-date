@@ -88,4 +88,18 @@ module.exports = class {
         this.requests++;
         return this.savedBlocks[number];
     }
+
+    async getEstimateDate(block) {
+        if (typeof this.firstBlock == 'undefined' || typeof this.latestBlock == 'undefined' || typeof this.blockTime == 'undefined') {
+            await this.getBoundaries();
+        }
+
+        if (block <= this.latestBlock.number) {
+            block = await this.getBlockWrapper(block);
+            return moment.unix(block.timestamp).utc().format();
+        }
+
+        const estimatedTime = this.latestBlock.timestamp + (block - this.latestBlock.number) * this.blockTime;
+        return moment.unix(estimatedTime).utc().format();
+    }
 };

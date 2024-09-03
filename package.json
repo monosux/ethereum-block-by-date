@@ -25,6 +25,7 @@
 		"moment": "^2.30.1"
 	},
 	"scripts": {
+		"clean": "rimraf lib",
 		"build": "rimraf lib && babel src -d lib",
 		"test": "npm run build && mocha && npm run lint",
 		"lint": "eslint src",
