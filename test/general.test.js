@@ -95,16 +95,23 @@ const run = async () => {
             let block = await dater.getDate(moment().add(100, 'years'), true, true);
             assert.equal(block.timestamp, timestamp);
         });
-        
-        it('Should return the right estimate timestamp if given block is in the future', async function () {
-            // let { timestamp } = await web3.eth.getBlock('latest');
-            // latest + overheadBlock = futureBlock
-            // calculated estimate date
-            let timestamp = await dater.getEstimateDate(20669502);
-            console.log("timestamp:", timestamp);
-            // let the block passing
-            // check diff between actual and estimate date
-            // assert.equal(block.timestamp, timestamp);
+
+        it('Should return right estimate timestamp if given block is in the future', async function () {
+            const { number } = await web3.eth.getBlock('latest');
+            const block = parseInt(number) + 2;
+            const estimatedDate = moment(await dater.getEstimateDate(block).date);
+            let futureBlock;
+            while (!futureBlock) {
+                try {
+                    futureBlock = await web3.eth.getBlock(block);
+                } catch (error) {
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                }
+            }
+            const actualDate = moment.unix(parseInt(futureBlock.timestamp)).utc();
+            const diffDate = Math.abs(estimatedDate.diff(actualDate, 'seconds'));
+            // current estimate are not perfect. should be low 15
+            assert.isBelow(diffDate, 20);
         });
     });
 };

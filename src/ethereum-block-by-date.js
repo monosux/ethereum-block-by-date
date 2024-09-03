@@ -95,11 +95,10 @@ module.exports = class {
         }
 
         if (block <= this.latestBlock.number) {
-            block = await this.getBlockWrapper(block);
-            return moment.unix(block.timestamp).utc().format();
+            return await this.getBlockWrapper(block);
+        } else {
+            const estimatedTime = this.latestBlock.timestamp + (block - this.latestBlock.number) * parseInt(this.blockTime);
+            return { date: moment.unix(estimatedTime).utc().format(), block: block, timestamp: estimatedTime };
         }
-
-        const estimatedTime = this.latestBlock.timestamp + (block - this.latestBlock.number) * this.blockTime;
-        return moment.unix(estimatedTime).utc().format();
     }
 };
