@@ -1,6 +1,6 @@
 # Ethereum Block By Date
 
-Get Ethereum block number by a given date. Or blocks by a given period duration.
+Get Ethereum block number by a given date. blocks by a given period duration. or date from a given block
 
 Works with any Ethereum based mainnet or testnet networks.
 
