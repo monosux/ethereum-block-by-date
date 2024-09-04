@@ -10,8 +10,12 @@ module.exports = class {
     }
 
     async getBoundaries() {
-        this.latestBlock = await this.getBlockWrapper('latest');
-        this.firstBlock = await this.getBlockWrapper(1);
+        const [latestBlock, firstBlock] = await Promise.all([
+            this.getBlockWrapper('latest'),
+            this.getBlockWrapper(1)
+        ]);
+        this.latestBlock = latestBlock;
+        this.firstBlock = firstBlock;
         this.blockTime = (parseInt(this.latestBlock.timestamp, 10) - parseInt(this.firstBlock.timestamp, 10)) / (parseInt(this.latestBlock.number, 10) - 1);
     }
 
@@ -97,7 +101,7 @@ module.exports = class {
         if (block <= this.latestBlock.number) {
             return await this.getBlockWrapper(block);
         } else {
-            const estimatedTime = this.latestBlock.timestamp + (block - this.latestBlock.number) * parseInt(this.blockTime);
+            const estimatedTime = this.latestBlock.timestamp + (block - this.latestBlock.number) * this.blockTime;
             return { date: moment.unix(estimatedTime).utc().format(), block: block, timestamp: estimatedTime };
         }
     }
