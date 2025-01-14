@@ -17,10 +17,11 @@ export default class BlockDateMapper {
     private isViem: boolean;
     private checkedBlocks: Record<number, number[]>;
     private savedBlocks: Record<number, SavedBlock>;
-    private requests: number;
     private latestBlock!: SavedBlock;
     private firstBlock!: SavedBlock;
     private blockTime!: number;
+
+    public requests: number;
 
     constructor(setting: ProviderSupport) {
         this.provider = typeof (setting as any).eth !== 'undefined' ? setting : { eth: setting };
@@ -38,7 +39,7 @@ export default class BlockDateMapper {
             (parseInt(this.latestBlock.timestamp.toString(), 10) - parseInt(this.firstBlock.timestamp.toString(), 10)) / (this.latestBlock.number - 1);
     }
 
-    async getDate(date: Moment | string | Date, after = true, refresh = false): Promise<ReturnWrapper> {
+    async getDate(date: Moment | Date | number | string, after = true, refresh = false): Promise<ReturnWrapper> {
         if (!moment.isMoment(date)) date = moment(date).utc();
 
         if (!this.firstBlock || !this.latestBlock || this.blockTime === undefined || refresh) {
@@ -160,13 +161,18 @@ export default class BlockDateMapper {
         return this.savedBlocks[parseInt(resp.number.toString())];
     }
 
-    async getEstimateDate(block: number): Promise<ReturnWrapper | SavedBlock> {
+    async getEstimateDate(block: number): Promise<ReturnWrapper> {
         if (!this.firstBlock || !this.latestBlock || this.blockTime === undefined) {
             await this.getBoundaries();
         }
 
         if (block <= this.latestBlock.number) {
-            return this.getBlockWrapper(block);
+            const savedBlock: SavedBlock = await this.getBlockWrapper(block);
+            return {
+                date: moment.unix(savedBlock.timestamp).utc().format(),
+                block: savedBlock.number,
+                timestamp: savedBlock.timestamp
+            };
         } else {
             const estimatedTime = this.latestBlock.timestamp + (block - this.latestBlock.number) * this.blockTime;
             return {
