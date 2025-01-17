@@ -37,6 +37,7 @@
         "@babel/core": "^7.26.0",
         "@babel/preset-env": "^7.26.0",
         "@babel/preset-typescript": "^7.26.0",
+        "@types/bn.js": "^5.1.6",
         "@types/chai": "^5.0.1",
         "@types/mocha": "^10.0.10",
         "@types/node": "^22.10.6",
@@ -50,9 +51,7 @@
         "rimraf": "^6.0.1",
         "ts-node": "^10.9.2",
         "typescript": "^5.7.3",
-        "viem": "^2.18.7",
-        "web3": "^4.11.1",
-        "web3-v1": "npm:web3@1.10.0"
+        "viem": "^2.18.7"
     },
     "browserslist": [
         "last 2 chrome versions",

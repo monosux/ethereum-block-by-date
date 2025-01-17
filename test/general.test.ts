@@ -2,12 +2,10 @@ import { assert } from 'chai';
 import moment from 'moment';
 import ethDater from '../src/ethereum-block-by-date';
 import 'dotenv/config';
-import Web3 from 'web3';
-import 'dotenv/config';
+import { ethers } from 'ethers';
 
-const web3 = new Web3(process.env.PROVIDER || '');
-
-const dater = new ethDater(web3);
+const provider = new ethers.InfuraProvider('mainnet', process.env.INFURA_API_KEY);
+const dater = new ethDater(provider);
 
 describe('Block By Date General Tests', function () {
     this.timeout(0);
@@ -57,15 +55,15 @@ describe('Block By Date General Tests', function () {
     });
 
     it('Should return last block number if given time is in the future', async function () {
-        let last = await web3.eth.getBlockNumber();
+        let last = await provider.getBlockNumber();
         let block = await dater.getDate(moment().add(100, 'years'), true, true);
         assert.equal(block.block, parseInt(last.toString()));
     });
 
     it('Should return last block number if given time is bigger than last block timestamp', async function () {
-        let last = await web3.eth.getBlockNumber();
-        let { timestamp } = await web3.eth.getBlock(last);
-        let block = await dater.getDate((Number(timestamp) + 1) * 1000, true, true);
+        let last = await provider.getBlockNumber();
+        let resp = await provider.getBlock(last);
+        let block = await dater.getDate((Number(resp?.timestamp) + 1) * 1000, true, true);
         assert.equal(block.block, parseInt(last.toString()));
     });
 
@@ -92,20 +90,20 @@ describe('Block By Date General Tests', function () {
     });
 
     it('Should return right timestamp if given time is in the future', async function () {
-        let { timestamp } = await web3.eth.getBlock('latest');
+        let resp = await provider.getBlock('latest');
         let block = await dater.getDate(moment().add(100, 'years'), true, true);
-        assert.equal(block.timestamp, parseInt(timestamp.toString()));
+        assert.equal(block.timestamp, parseInt(resp!.timestamp.toString()));
     });
 
     it('Should return right estimate timestamp if given block is in the future', async function () {
-        const { number } = await web3.eth.getBlock('latest');
-        const block = parseInt(number.toString()) + 2;
+        let resp = await provider.getBlock('latest');
+        const block = parseInt(resp!.number.toString()) + 2;
 
         const estimatedDate = moment((await dater.getEstimateDate(block)).date);
         let futureBlock;
         while (!futureBlock) {
             try {
-                futureBlock = await web3.eth.getBlock(block);
+                futureBlock = await provider.getBlock(block);
             } catch (error) {
                 await new Promise(resolve => setTimeout(resolve, 5000));
             }

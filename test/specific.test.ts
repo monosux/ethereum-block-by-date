@@ -2,12 +2,10 @@ import { assert } from 'chai';
 import moment from 'moment';
 import ethDater from '../src/ethereum-block-by-date';
 import 'dotenv/config';
-import Web3 from 'web3';
-import 'dotenv/config';
+import { ethers } from 'ethers';
 
-const web3 = new Web3(process.env.PROVIDER || '');
-
-const dater = new ethDater(web3);
+const provider = new ethers.InfuraProvider('mainnet', process.env.INFURA_API_KEY);
+const dater = new ethDater(provider);
 
 describe('Block By Date Specific Dates Tests', function () {
     this.timeout(0);
