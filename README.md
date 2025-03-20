@@ -1,6 +1,6 @@
 # Ethereum Block By Date
 
-Get Ethereum block number by a given date. Or blocks by a given period duration.
+Get Ethereum block number by a given date. blocks by a given period duration. or date from a given block
 
 Works with any Ethereum based mainnet or testnet networks.
 
@@ -113,7 +113,7 @@ let requests = dater.requests;
 /* Returns a count of made requests */
 ```
 
-Note: if the given date is before the first block date in the blockchain, the script will return 1 as block number. If the given date is in the future, the script will return the last block number in the blockchain.
+Note: if the given date is before the first block date in the blockchain, the script will return 1 as block number. If the given date is in the future, the script will return the last block number in the blockchain. if the given block is less than the latest block, the script will return the actual timestamp of the given block. If the given block is in the future, the script will return estimated timestamp.
 
 ## Moment.js
 
@@ -162,6 +162,18 @@ let blocks = await dater.getEvery('hours', '2019-10-10T00:00:00Z', '2019-10-11T0
     { date: '2019-10-10T20:00:00Z', block: 8716033, timestamp: 1570737614 },
     { date: '2019-10-11T00:00:00Z', block: 8717086, timestamp: 1570752000 }
 ] */
+```
+
+Get estimate timestamp of future block:
+```javascript
+let futureBlock = 4294967295;
+let timestamp = await dater.getEstimateDate(futureBlock);
+
+/* Returns an object: {
+    date: '3785-06-26T22:32:33Z', // estimated date
+    block: 4294967295, // given block number
+    timestamp: 57291229953 // estimated block timestamp
+*/
 ```
 
 ## Need Help

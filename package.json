@@ -1,54 +1,60 @@
 {
-	"name": "ethereum-block-by-date",
-	"version": "1.5.0",
-	"description": "Get Ethereum block number by a given date. Or blocks by a given period duration.",
-	"keywords": [
-		"ethereum",
-		"blockchain",
-		"web3",
-		"eth",
-		"dapp",
-		"utilties"
-	],
-	"homepage": "https://github.com/monosux/ethereum-block-by-date",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/monosux/ethereum-block-by-date.git"
-	},
-	"bugs": {
-		"url": "https://github.com/monosux/ethereum-block-by-date/issues"
-	},
-	"author": "Sergey Alexeev <alexeev.sergey.a@gmail.com>",
-	"license": "MIT",
-	"main": "./lib/ethereum-block-by-date.js",
-	"dependencies": {
-		"moment": "^2.30.1"
-	},
-	"scripts": {
-		"build": "rimraf lib && babel src -d lib",
-		"test": "npm run build && mocha && npm run lint",
-		"lint": "eslint src",
-		"prettier": "prettier src --write",
-		"style": "yarn lint && yarn prettier"
-	},
-	"devDependencies": {
-		"@babel/cli": "^7.24.8",
-		"@babel/core": "^7.25.2",
-		"@babel/preset-env": "^7.25.3",
-		"chai": "^4.5.0",
-		"dotenv": "^16.4.5",
-		"eslint": "^8.57.0",
-		"ethers": "^6.13.2",
-		"ethers-v5": "npm:ethers@5.7.2",
-		"mocha": "^10.7.0",
-		"prettier": "^3.3.3",
-		"rimraf": "^6.0.1",
-		"viem": "^2.18.7",
-		"web3": "^4.11.1",
-		"web3-v1": "npm:web3@1.10.0"
-	},
-	"browserslist": [
-		"last 2 chrome versions",
-		"maintained node versions"
-	]
+    "name": "ethereum-block-by-date",
+    "version": "1.5.0",
+    "description": "Get Ethereum block number by a given date. Or blocks by a given period duration.",
+    "keywords": [
+        "ethereum",
+        "blockchain",
+        "web3",
+        "eth",
+        "dapp",
+        "utilties"
+    ],
+    "homepage": "https://github.com/monosux/ethereum-block-by-date",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/monosux/ethereum-block-by-date.git"
+    },
+    "bugs": {
+        "url": "https://github.com/monosux/ethereum-block-by-date/issues"
+    },
+    "author": "Sergey Alexeev <alexeev.sergey.a@gmail.com>",
+    "license": "MIT",
+    "main": "./lib/ethereum-block-by-date.js",
+    "dependencies": {
+        "moment": "^2.30.1"
+    },
+    "scripts": {
+        "clean": "rimraf lib",
+        "build": "npm run clean && tsc && babel src --out-dir lib --extensions \".ts\"",
+        "test": "npm run build && mocha -r ts-node/register test/**/*.ts",
+        "lint": "eslint src",
+        "prettier": "prettier src --write",
+        "style": "yarn lint && yarn prettier"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.26.4",
+        "@babel/core": "^7.26.0",
+        "@babel/preset-env": "^7.26.0",
+        "@babel/preset-typescript": "^7.26.0",
+        "@types/bn.js": "^5.1.6",
+        "@types/chai": "^5.0.1",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^22.10.6",
+        "chai": "^4.5.0",
+        "dotenv": "^16.4.5",
+        "eslint": "^8.57.0",
+        "ethers": "^6.13.2",
+        "ethers-v5": "npm:ethers@5.7.2",
+        "mocha": "^10.7.0",
+        "prettier": "^3.3.3",
+        "rimraf": "^6.0.1",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.3",
+        "viem": "^2.18.7"
+    },
+    "browserslist": [
+        "last 2 chrome versions",
+        "maintained node versions"
+    ]
 }
